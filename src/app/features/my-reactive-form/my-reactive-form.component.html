@@ -1,0 +1,81 @@
+<div id="flexone">
+    <form [formGroup]="myForm">
+        <label>Name</label>
+        <input type="text" formControlName="name">
+        <div style="color: red" *ngIf="myForm.controls.name.errors?.['required']">
+            Name is required
+        </div>
+        <label>LastName</label>
+        <input type="text" formControlName="lastName">
+        <div style="color: red" *ngIf="myForm.controls.lastName.errors?.['required']">
+            LastName is required
+        </div>
+        <label>DataDiNascita</label>
+        <input type="date" formControlName="birthDate">
+        <div style="color: red" *ngIf="myForm.controls.birthDate.errors?.['ageError']">
+            Utente deve essere maggiorenne
+        </div>
+        <label>CodiceFiscale</label>
+        <input type="text" formControlName="fiscalCode">
+        <div style="color: red" *ngIf="myForm.controls.fiscalCode.errors?.['cfError']">
+            Codice fiscale illegale
+        </div>
+        <label>Residenza</label>
+        <input type="text" formControlName="mainAddress">
+        <div style="color: red" *ngIf="myForm.controls.mainAddress.errors?.['required']">
+            Residenza is required
+        </div>
+        <button (click)="aggiungiDomicilio()">Aggiungi Domicilio</button>
+        <div formArrayName="workAddresses" *ngIf="myForm.controls.workAddresses.controls.length>0">
+            <div *ngFor="let address of myForm.controls.workAddresses.controls, let i = index">
+                <div id="domicilio" formGroupName="{{i}}">
+                    <label for="">Domicilio n° {{i}}</label>
+                    <label for="">Indirizzo</label>
+                    <input type="text" formControlName="via">
+                    <label>Civico</label>
+                    <input type="number" formControlName="civico">
+                    <label>Città</label>
+                    <input type="text" formControlName="citta">
+                    <label>Cap</label>
+                    <input type="text" formControlName="cap">
+                </div>
+            </div>
+        </div>
+
+
+        <input type="submit" (click)="aggiungiDipendente()" [disabled]="!myForm.valid || isEditing">
+    </form>
+</div>
+
+
+<div id="table-container">
+    <table>
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>LastName</th>
+            <th>DataDiNascita</th>
+            <th>CodiceFiscale</th>
+            <th>Residenza</th>
+            <th>Domicilio</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of listaDipendenti">
+                <td>{{employee.name}}</td>
+                <td>{{employee.lastName}}</td>
+                <td>{{employee.birthDate}}</td>
+                <td>{{employee.fiscalCode}}</td>
+                <td>{{employee.mainAddress}}</td>
+                <td>
+                    <button (click)="mostraDomicili(employee)">Mostra Domicili</button>
+                </td>
+                <td>
+                    <button *ngIf="!isEditing" (click)="modifica(employee)">Modifica</button>
+                    <button *ngIf="isEditing" (click)="confermaModifiche(employee)">Conferma</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

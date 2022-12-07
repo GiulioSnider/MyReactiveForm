@@ -1,0 +1,20 @@
+form, #domicilio{
+    display: flex;
+    flex-direction: column;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+
+th,td {
+    margin: 3px;
+    text-align: center;
+}
+
+#table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1em;
+}
